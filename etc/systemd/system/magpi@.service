@@ -1,0 +1,10 @@
+[Unit]
+Description=Mangum Power Monitor
+
+[Service]
+Restart=always
+RestartSec=1
+ExecStart=/usr/local/bin/magpi.py -s0 -m2 -p /dev/%i
+
+[Install]
+WantedBy=multi-user.target
