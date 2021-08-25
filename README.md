@@ -3,9 +3,9 @@ A tool for monitoring a Magnum inverter using Python3 and a RS-485 to serial con
 
 ### Credits
 Prior work in this arena from:
-  Chris (aka user cpfl) Midnightsolar forum.
-  Paul Alting van Geusau
-  [Liam O'Brien](https://github.com/finderman2/MagnasineMagPy)
+* Chris (aka user cpfl) Midnightsolar forum.
+* Paul Alting van Geusau
+* [Liam O'Brien](https://github.com/finderman2/MagnasineMagPy)
 
 ### Backstory
 Code from earlier versions of the repostiory based heavily on work by Liam O'Brien and others noted above.
