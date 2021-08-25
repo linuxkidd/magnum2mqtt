@@ -1,0 +1,5 @@
+#
+# Options for /usr/local/bin/magpi.py
+#
+
+MAGPIOPTS="-b localhost -r"

@@ -1,0 +1,1155 @@
+- name: inverter
+  device: Inverter
+  minbytes: 20
+  maxbytes: 22
+  parameters:
+    - byte: 0
+      name: Inverter Status
+      type: uint8
+      values:
+        0: Charger Standby
+        1: EQ
+        2: Float
+        4: Absorb
+        8: Bulk
+        9: Full Batt / Silent
+        10: Load Support VDC
+        11: Load Support AAC
+        16: Charging
+        32: Off
+        64: Inverting
+        80: Inverter Standby
+        128: Search
+    - byte: 1
+      name: Inverter Fault
+      type: uint8
+      values:
+        0: No Fault
+        1: Stuck Relay
+        2: DC Overload
+        3: AC Overload
+        4: Dead Battery
+        5: AC Backfeed
+        8: Low Battery
+        9: High Battery
+        10: High AC Volts
+        11: High Speed Bus Fault
+        16: Internal Bridge
+        18: NTC
+        19: FET Overload
+        22: Stacker Mode
+        23: Stacker No Clock
+        24: Stacker Clock Phase
+        25: Stacker Phase Loss
+        32: Overtemp
+        33: Relay
+        128: Charger
+        129: High Battery Temp
+        144: Open SELCO Thermal Cut Out
+        145: AC Breaker CB3 Open
+    - byte: 2-3
+      name: DC Voltage
+      type: uint16
+      unit: V
+      scale: 0.1
+    - byte: 4-5
+      name: DC Current
+      type: uint16
+      unit: A
+      alt:
+        comp: gt
+        level: 32768
+        calibrate: -65536
+    - byte: 6
+      name: AC Output Voltage
+      type: uint8
+      unit: V
+    - byte: 7
+      name: AC Input Voltage
+      type: uint8
+      unit: V
+    - byte: 8
+      name: Inverter LED
+      type: uint8
+      values:
+        0: Off
+        1: On
+    - byte: 9
+      name: Charger LED
+      type: uint8
+      values:
+        0: Off
+        1: On
+    - byte: 10
+      name: Inverter Revision
+      type: uint8
+      scale: 0.1
+    - byte: 11
+      name: Battery Temp
+      type: uint8
+      unit: C
+    - byte: 12
+      name: Transformer Temp
+      type: uint8
+      unit: C
+    - byte: 13
+      name: FET Temp
+      type: uint8
+      unit: C
+    - byte: 14
+      name: Inverter Model
+      type: uint8
+      calcscale: 1
+      values:
+        6: MM612
+        7: MM612-AE
+        8: MM1212
+        9: MMS1012
+        10: MM1012E
+        11: MM1512
+        12: MMS912E
+        15: ME1512
+        20: ME2012
+        21: RD2212
+        25: ME2512
+        30: ME3112
+        35: MS2012
+        36: MS1512E
+        40: MS2012E
+        44: MSH3012M
+        45: MS2812
+        47: MS2712E
+        53: MM1324E
+        54: MM1524
+        55: RD1824
+        59: RD2624E
+        63: RD2824
+        69: RD4024E
+        74: RD3924
+        90: MS4124E
+        91: MS2024
+        103: MSH4024M
+        104: MSH4024RE
+        105: MS4024
+        106: MS4024AE
+        107: MS4024PAE
+        111: MS4448AE
+        112: MS3748AEJ
+        114: MS4048
+        115: MS4448PAE
+        116: MS3748PAEJ
+        117: MS4348PE
+    - byte: 15
+      name: Stack Mode
+      type: uint8
+      values:
+        0: Standalone Unit
+        1: Parallel Stack - main
+        2: Parallel Stack - secondary
+        4: Series Stack - main
+        8: Series Stack - secondary
+      alt:
+        comp: gt
+        level: 128
+        calibrate: -256
+    - byte: 16
+      name: AC Input Current
+      type: uint8
+      unit: A
+      alt:
+        comp: gt
+        level: 128
+        calibrate: -256
+    - byte: 17
+      name: AC Transformer Current
+      type: uint8
+      unit: A
+      alt:
+        comp: gt
+        level: 128
+        calibrate: -256
+    - byte: 18-19
+      name: AC Frequency
+      type: uint16
+      unit: Hz
+      scale: 0.1
+- name: Remote Base
+  device: Inverter
+  bytes: 14
+  parameters:
+    - byte: 0
+      bit: 0
+      name: Inverter On/Off
+      type: bit
+    - byte: 0
+      bit: 1
+      name: Charger On/Off
+      type: bit
+    - byte: 0
+      bit: 3
+      name: Force EQ
+      type: bit
+    - byte: 1
+      name: Search Watts
+      type: uint8
+      unit: W
+    - byte: 2
+      name: Battery Size
+      type: uint8
+      unit: Ah
+      scale: 10
+    - byte: 3
+      name: Battery Type
+      type: uint8
+      values:
+        2: Gel
+        4: Flooded
+        8: AGM
+        10: AGM2
+      alt:
+        value: Custom
+        name: Absorb Voltage
+        comp: gt
+        level: 100
+        scale: 0.1
+        unit: V
+        scaled: 1
+    - byte: 4
+      name: Charger Current Pct
+      type: uint8
+      unit: "%"
+    - byte: 5
+      name: Shore Current
+      type: uint8
+      unit: A
+    - byte: 6
+      name: Remote Version
+      type: uint8
+      scale: 0.1
+    - byte: 7
+      bit: 0-3
+      name: Parallel Threshold
+      type: uint4
+      scale: 10
+      unit: "%"
+    - byte: 7
+      bit: 4-7
+      name: Force Charge
+      type: uint4
+      values:
+        1: Disable Refloat/Bulk
+        2: Force Silent
+        4: Force Float
+        8: Force Bulk
+    - byte: 8
+      name: Auto Genstart
+      type: uint8
+      values:
+        0: Off
+        1: Enabled
+        2: Test
+        4: Enable with Quiet Time
+        8: On
+    - byte: 9
+      name: Low Battery Cut Out
+      type: uint8
+      unit: V
+      scale: 0.1
+    - byte: 10
+      name: VAC Cut Out
+      type: uint8
+      values:
+        110: 60 V
+        122: 65 V
+        135: 70 V
+        145: 75 V
+        155: 80 V
+        165: 85 V
+        175: 90 V
+        182: 95 V
+        190: 100 V
+        192: UPS Mode
+        255: Ignore AC input
+    - byte: 11
+      name: Float Voltage
+      type: uint8
+      unit: V
+      scale: 0.1
+      scaled: 1
+    - byte: 12
+      name: EQ Voltage
+      type: uint8
+      scale: 0.1
+      unit: V
+      scaled: 1
+    - byte: 13
+      name: Absorb Time
+      type: uint8
+      scale: 0.1
+      unit: hr
+- keyfield: 6
+  A0:
+    name: Remote A0
+    device: AGS
+    bytes: 7
+    parameters:
+      - byte: 0
+        name: Remote Time - Hours
+        type: uint8
+        unit: hr
+      - byte: 1
+        name: Remote Time - Minutes
+        type: uint8
+        unit: min
+      - byte: 2
+        name: Gen Run Time
+        type: uint8
+        unit: hr
+        scale: 0.1
+      - byte: 3
+        name: Gen Start Temp
+        type: uint8
+        unit: F
+      - byte: 4
+        name: Gen Start VDC
+        type: uint8
+        unit: V
+        scale: 0.1
+        scaled: 1
+      - byte: 5
+        name: Quiet Time Hours
+        type: uint8
+        values:
+          0: Off
+          1: 9p-7a
+          2: 9a-8a
+          3: 9p-9a
+          4: 10p-8a
+          5: 11p-8a
+  A1:
+    name: Remote A1
+    device: AGS
+    bytes: 7
+    parameters:
+      - byte: 0
+        name: Gen Time Start
+        type: uint8
+        scale: 0.25
+        unit: hr
+      - byte: 1
+        name: Gen Time Stop
+        type: uint8
+        scale: 0.25
+        unit: hr
+      - byte: 2
+        name: Gen Stop VDC
+        type: uint8
+        scale: 0.1
+        unit: V
+        scaled: 1
+      - byte: 3
+        name: Gen VDC Start Delay
+        type: uint8
+        unit: sec
+      - byte: 4
+        name: Gen VDC Stop Delay
+        type: uint8
+        unit: sec
+      - byte: 5
+        name: Gen Max Run Time
+        type: unit8
+        scale: 0.1
+        unit: hr
+  A2:
+    name: Remote A2
+    device: AGS
+    bytes: 7
+    parameters:
+      - byte: 0
+        name: Gen SOC Start
+        type: uint8
+        unit: "%"
+      - byte: 1
+        name: Gen SOC Stop
+        type: uint8
+        unit: "%"
+      - byte: 2
+        name: Gen Amps Start
+        type: uint8
+        unit: A
+      - byte: 3
+        name: Gen Amps Start Delay
+        type: uint8
+        unit: sec
+      - byte: 4
+        name: Gen Amps Stop
+        type: uint8
+        unit: A
+      - byte: 5
+        name: Gen Amps Start Delay
+        type: uint8
+        unit: sec
+  A3:
+    name: Remote A3
+    device: AGS
+    bytes: 7
+    parameters:
+      - byte: 0
+        name: Gen Quiet Time Begin
+        type: uint8
+        unit: hr
+        scale: 0.25
+      - byte: 1
+        name: Gen Quiet Time End
+        type: uint8
+        scale: 0.25
+        unit: hr
+      - byte: 2
+        name: Gen Exercise Days
+        type: uint8
+      - byte: 3
+        name: Gen Exercise Start Time
+        type: uint8
+        scale: 0.25
+        unit: hr
+      - byte: 4
+        name: Gen Exercise Run Time
+        type: uint8
+        unit: hr
+        scale: 0.1
+      - byte: 5
+        name: Gen Top off
+        type: uint8
+        unit: min
+  A4:
+    name: Remote A4
+    device: AGS
+    bytes: 7
+    parameters:
+      - byte: 0
+        name: AGS Warm Up
+        type: uint8
+        unit: sec
+        alt:
+          comp: gt
+          level: 127
+          calibrate: -128
+          scale: 60
+      - byte: 1
+        name: AGS Cool down
+        type: uint8
+        unit: sec
+        alt:
+          comp: gt
+          level: 127
+          calibrate: -128
+          scale: 60
+  "80":
+    name: Remote 80
+    device: BMK
+    bytes: 7
+    parameters:
+      - byte: 0
+        name: Remote Time - Hours
+        type: uint8
+        unit: hr
+      - byte: 1
+        name: Remote Time - Minutes
+        type: uint8
+        unit: min
+      - byte: 2
+        name: Battery Efficiency
+        type: uint8
+        unit: "%"
+        values:
+          0: Auto
+      - byte: 3
+        name: BMK Resets
+        type: uint8
+        values:
+          0: Normal Running
+          1: Reset Minimum VDC
+          2: Reset Maximum VDC
+          3: Reset Amp Hours Trip
+          4: Reset kAmp Hours
+      - byte: 4
+        name: Battery Size
+        type: uint8
+        unit: Ah
+        scale: 10
+  11:
+    name: Remote 11
+    device: Inverter
+    bytes: 7
+    parameters:
+      - byte: 0
+        name: Shore Current
+        type: uint8
+        unit: A
+      - byte: 1
+        name: VAC Cut Out Input 2
+        type: uint8
+        values:
+          110: 60 V
+          122: 65 V
+          135: 70 V
+          145: 75 V
+          155: 80 V
+          165: 85 V
+          175: 90 V
+          182: 95 V
+          190: 100 V
+          192: UPS Mode
+          255: Ignore AC input
+  C0:
+    name: Remote C0
+    device: Solar Controller
+    bytes: 7
+    parameters:
+      - byte: 0
+        name: PT Force Charge Mode
+        type: uint3
+        bit: 0-2
+        values:
+          0: Multistage
+          1: Off
+          2: Force Float
+          3: Force Bulk
+          4: Equalize
+      - byte: 1
+        name: PT Relay On Off
+        bit: 0-1
+        type: uint2
+        values:
+          0: Auto
+          1: Off
+          2: Toggle
+          3: On
+      - byte: 1
+        name: PT Buzzer On Off
+        bit: 2-3
+        type: uint2
+        values:
+          0: Auto
+          1: Off
+          2: Toggle
+          3: On
+      - byte: 2
+        name: PT Resets
+        type: uint8
+        values:
+          0: Normal
+          1: Reset kWh
+          2: Reset Faults
+          3: Reset Unit
+      - byte: 3
+        name: PT Unit Number
+        bit: 0-2
+        type: uint3
+      - byte: 4
+        name: PT Packet Number
+        bit: 3-7
+        type: uint5
+      - byte: 4-5
+        name: PT Log Number
+        type: uint16
+  C1:
+    name: Remote C1
+    device: Solar Controller
+    bytes: 7
+    parameters:
+      - byte: 0
+        name: PT Relay On VDC
+        type: uint8
+        unit: V
+        scale: 0.1
+      - byte: 1
+        name: PT Relay Off VDC
+        type: uint8
+        unit: V
+        scale: 0.1
+      - byte: 2
+        name: PT Relay On Delay
+        type: uint8
+        unit: sec
+        alt:
+          comp: gt
+          level: 127
+          calibrate: -128
+          scale: 60
+      - byte: 3
+        name: PT Relay Off Delay
+        type: uint8
+        unit: sec
+        alt:
+          comp: gt
+          level: 127
+          calibrate: -128
+          scale: 60
+      - byte: 4
+        name: PT Battery Temp Comp
+        type: uint8
+      - byte: 5
+        name: PT Power Save Time
+        type: uint8
+        unit: min
+  C2:
+    name: Remote C2
+    device: Solar Controller
+    bytes: 7
+    parameters:
+      - byte: 0
+        name: PT Alarm On VDC
+        type: uint8
+        unit: V
+        scale: 0.1
+      - byte: 1
+        name: PT Alarm Off VDC
+        type: uint8
+        unit: V
+        scale: 0.1
+      - byte: 2
+        name: PT Alarm On Delay
+        type: uint8
+        unit: sec
+        alt:
+          comp: gt
+          level: 127
+          calibrate: -128
+          scale: 60
+      - byte: 3
+        name: PT Alarm Off Delay
+        type: uint8
+        unit: sec
+        alt:
+          comp: gt
+          level: 127
+          calibrate: -128
+          scale: 60
+      - byte: 4
+        name: PT EQ Done Timer
+        type: uint8
+        unit: hr
+        scale: 0.1
+      - byte: 5
+        bit: 0-6
+        name: PT Charge Rate
+        type: uint8
+        unit: "%"
+      - byte: 5
+        bit: 7
+        name: PT Rebulk on Sun Up
+        type: bit
+  C3:
+    name: Remote C3
+    device: Solar Controller
+    bytes: 7
+    parameters:
+      - byte: 0
+        name: PT Absorb Voltage
+        type: uint8
+        unit: V
+        scale: 0.1
+        scaled: 1
+      - byte: 1
+        name: PT Float Voltage
+        type: uint8
+        unit: V
+        scale: 0.1
+        scaled: 1
+      - byte: 2
+        name: PT Equalize Voltage
+        type: uint8
+        unit: V
+        scale: 0.1
+        scaled: 1
+      - byte: 3
+        name: PT Absorb Time
+        type: uint8
+        unit: hr
+        scale: 0.1
+      - byte: 4
+        name: PT ReBulk Voltage
+        type: uint8
+        unit: V
+        scale: 0.1
+        scaled: 1
+      - byte: 5
+        name: PT Battery Temp Comp
+        type: uint8
+- keyfield: 0
+  A1:
+    name: AGS1
+    device: AGS
+    bytes: 6
+    parameters:
+      - byte: 1
+        name: AGS Status
+        type: uint8
+        values:
+          0: Invalid
+          1: Off
+          2: Ready
+          3: Manual Run
+          4: AC In
+          5: In Quiet Time (hours)
+          6: Start in test mode
+          7: Start on temperature
+          8: Start on Voltage
+          9: Fault start on test
+          10: Fault start on temp
+          11: Fault start on voltage
+          12: Start on Time of Day
+          13: Start on SOC
+          14: Start Exercise
+          15: Fault start Time of Day
+          16: Fault start SOC
+          17: Fault start Exercise
+          18: Start on Amp
+          19: Start on Topoff
+          21: Fault start on Amp
+          22: Fault start on Topoff
+          24: Fault max run
+          25: Gen Run Fault
+          26: Gen in Warm Up
+          27: Gen in Cool Down
+      - byte: 2
+        name: AGS Revision
+        type: uint8
+        scale: 0.1
+      - byte: 3
+        name: AGS Temperature
+        type: uint8
+        unit: F
+      - byte: 4
+        name: Gen Run Time
+        type: uint8
+        unit: hr
+        scale: 0.1
+      - byte: 5
+        name: AGS VDC
+        type: uint8
+        unit: V
+        scale: 0.1
+        scaled: 1
+  A2:
+    name: AGS2
+    device: AGS
+    bytes: 6
+    parameters:
+      - byte: 1
+        name: Days since Gen Run
+        type: uint8
+      - byte: 2
+        name: Days since last FULL SOC
+        type: uint8
+      - byte: 3-4
+        name: Total Gen On Time
+        type: uint16
+      - byte: 5
+        name: Gen Run Total Hours
+        type: uint8
+        unit: hr
+  91:
+    name: RTR
+    bytes: 2
+    parameters:
+      - byte: 1
+        name: RTR Revision
+        type: uint8
+        scale: 0.1
+  "81":
+    name: BMK
+    device: BMK
+    bytes: 18
+    parameters:
+      - byte: 1
+        name: State of Charge
+        type: uint8
+        values:
+          255: Think'n
+        unit: "%"
+      - byte: 2-3
+        name: BMK DC Voltage
+        type: uint16
+        scale: 0.01
+      - byte: 4-5
+        name: BMK DC Current
+        type: uint16
+        scale: 0.1
+        unit: A
+        alt:
+          comp: gt
+          level: 32768
+          calibrate: -65535
+          scale: 0.1
+      - byte: 6-7
+        name: BMK Min Volts
+        type: uint16
+        unit: V
+        scale: 0.01
+      - byte: 8-9
+        name: BMK Max Volts
+        type: uint16
+        unit: V
+        scale: 0.01
+      - byte: 10-11
+        name: BMK Ah Net
+        type: uint16
+        unit: Ah
+        alt:
+          comp: gt
+          level: 32768
+          calibrate: -65536
+      - byte: 12-13
+        name: BMK Ah Trip
+        type: uint16
+        scale: 0.1
+        unit: Ah
+      - byte: 14-15
+        name: BMK Ah Out Total
+        type: uint16
+        unit: Ah
+        scale: 100
+      - byte: 16
+        name: BMK Revision
+        type: uint8
+        scale: 0.1
+      - byte: 17
+        name: BMK Fault
+        type: uint8
+        values:
+          0: Reserved
+          1: Normal
+          2: Fault start
+  C1:
+    name: PT1
+    device: Solar Controller
+    bytes: 16
+    parameters:
+      - byte: 1
+        name: PT Address
+        type: uint8
+      - byte: 2
+        bit: 0
+        name: PT Off On
+        type: bit
+        values:
+          0: Off
+          1: On
+      - byte: 2
+        bit: 2-4
+        type: uint3
+        name: PT Mode
+        values:
+          0: Sleep
+          2: Sleep
+          3: Float
+          4: Bulk
+          5: Absorb
+          6: EQ
+      - byte: 2
+        bit: 5-7
+        name: PT Regulation
+        type: uint4
+        values:
+          0: Off
+          1: Voltage
+          2: Current
+          3: Temperature
+          4: Hardware
+          5: Voltage Off Limit
+          6: MPPT Limit
+          7: Fault Limit
+          15: MPPT On
+      - byte: 3
+        name: PT Fault
+        type: uint8
+        values:
+          0: None
+          1: Input Breaker
+          2: Output Breaker
+          3: PV High Voltage
+          4: Battery High
+          5: BTS Shorted
+          6: FET Over Temp
+          7: Inductor Over Temp
+          8: Over Current
+          9: Internal Phase
+          10: Repeated Internal Phase
+          11: Internal Fault 1
+          12: GFP
+          13: ARC
+          14: NTC (- Temp Coef)
+          15: FET Overload
+          16: Stack Fault 1
+          17: Stack Fault 2
+          18: Stack Fault 3
+          19: High Batt Temp
+      - byte: 4-5
+        name: PT Battery Voltage
+        type: uint16
+        scale: 0.1
+        unit: V
+      - byte: 6-7
+        name: PT Battery Current
+        type: uint16
+        scale: 0.1
+        unit: A
+      - byte: 8-9
+        name: PV Voltage
+        type: uint16
+        scale: 0.1
+        unit: V
+      - byte: 10
+        name: PT Charge Time
+        type: uint8
+        scale: 0.1
+        unit: hr
+      - byte: 11
+        name: PT Target Battery Voltage
+        type: uint8
+        unit: V
+        scale: 0.1
+        scaled: 1
+      - byte: 12
+        name: PT Relay State
+        bit: 0
+        type: uint1
+        values:
+          0: Engaged
+          1: Disengaged
+      - byte: 12
+        bit: 1
+        name: PT Alarm State
+        type: uint1
+        values:
+          0: Off
+          1: On
+      - byte: 13
+        name: PT Battery Temperature
+        type: uint8
+        values:
+          255: Shorted
+          254: Open
+        unit: C
+      - byte: 14
+        name: PT Inductor Temperature
+        type: uint8
+        values:
+          255: Shorted
+          254: Open
+        unit: C
+      - byte: 15
+        name: PT FET Temperature
+        type: uint8
+        values:
+          255: Shorted
+          254: Open
+        unit: C
+  C2:
+    name: PT2
+    device: Solar Controller
+    bytes: 13
+    parameters:
+      - byte: 1
+        name: PT Address
+        type: uint8
+      - byte: 2-3
+        name: PT Lifetime Energy
+        type: uint16
+        scale: 10
+        unit: kWh
+      - byte: 4-5
+        name: PT Resettable Energy
+        type: uint16
+        unit: kWh
+        scale: 0.1
+      - byte: 6
+        name: PT Ground Fault Current
+        type: uint8
+        unit: A
+        scale: 0.01
+      - byte: 7
+        bit: 0-5
+        type: uint8
+        name: PT Nominal Battery Voltage
+        unit: V
+      - byte: 7
+        bit: 6-7
+        name: Stacker Info
+        type: uint8
+      - byte: 8
+        name: PT Version
+        type: uint8
+        scale: 0.1
+      - byte: 9
+        name: PT Model
+        type: uint8
+      - byte: 10
+        name: PT Output Current Rating
+        type: uint8
+        unit: A
+        scale: 5
+      - byte: 11
+        name: PT Input Voltage Rating
+        type: uint8
+        unit: V
+        scale: 10
+  C3:
+    name: PT3
+    device: Solar Controller
+    bytes: 15
+    parameters:
+      - byte: 1
+        bit: 0-2
+        name: Address
+        type: uint8
+      - byte: 1-2
+        bit: 3-15
+        name: PT Record Number
+        type: uint16
+      - byte: 3
+        name: PT Daily Energy
+        type: uint8
+        scale: 0.1
+        unit: kWh
+      - byte: 4
+        name: PT Max Daily PV Volts
+        type: uint8
+        unit: V
+      - byte: 5
+        name: PT Max Daily PV Volts Time
+        type: uint8
+        scale: 0.1
+        unit: hr
+      - byte: 6
+        name: PT Max Daily Battery Volts
+        type: uint8
+        unit: V
+      - byte: 7
+        name: PT Max Daily Battery Volts Time
+        type: uint8
+        scale: 0.1
+        unit: hr
+      - byte: 8
+        name: PT Min Daily Battery Volts
+        type: unit8
+        unit: V
+      - byte: 9
+        name: PT Min Daily Battery Volts Time
+        type: uint8
+        unit: hr
+        scale: 0.1
+      - byte: 10
+        name: PT Daily Time Operational
+        type: uint8
+        scale: 0.1
+        unit: hr
+      - byte: 11
+        name: PT Daily Ah
+        type: uint8
+        unit: Ah
+        scale: 10
+      - byte: 12
+        name: PT Peak Daily Power
+        type: uint8
+        unit: W
+        scale: 100
+      - byte: 13
+        name: PT Peak Daily Power Time
+        type: uint8
+        unit: hr
+        scale: 0.1
+  C4:
+    name: PT4
+    device: Solar Controller
+    bytes: 8
+    parameters:
+      - byte: 1
+        bit: 0-2
+        name: PT Address
+        type: uint8
+      - byte: 1
+        bit: 3-7
+        name: PT Fault Number
+        type: uint8
+      - byte: 2
+        name: PT Max Battery Volts
+        type: uint8
+        unit: V
+      - byte: 3
+        name: PT Max PV Volts
+        type: uint8
+        unit: "%"
+      - byte: 4
+        name: PT Max PV to Battery VDC
+        type: uint8
+        unit: V
+      - byte: 5
+        name: PT Max Battery Temp
+        type: uint8
+        unit: C
+      - byte: 6
+        name: PT Max FET Temp
+        type: uint8
+        unit: C
+      - byte: 7
+        name: PT Max Inductor Temp
+        type: uint8
+        unit: C
+  D1:
+    name: ACLD
+    device: AC Load Distributor
+    bytes: 8
+    parameters:
+      - byte: 1
+        bit: 0-3
+        name: ACLD Faults
+        type: uint8
+        values:
+          0: None
+          1: High Current
+          2: High VAC
+          3: High Vout
+          4: Open Load
+          5: Desaturation
+          6: ADC Current Limit
+          7: Very High Current
+          8: Output Short
+          9: Over Temp
+          10: No Comms
+      - byte: 1
+        bit: 4-6
+        name: ACLD Mode
+        type: uint8
+        values:
+          0: Off
+          1: Manual
+          4: Bulk
+          5: Absorb
+          6: Float
+          7: EQ
+      - byte: 1
+        bit: 7
+        name: ACLD Active
+        type: bit
+        values:
+          0: Not Active/Standby
+          1: Active
+      - byte: 2
+        name: ACLD Power Out
+        type: uint8
+        unit: kW
+        scale: 0.1
+      - byte: 5
+        name: ACLD Model
+        type: uint8
+      - byte: 6
+        name: ACLD FET Temp
+        type: uint8
+        unit: C
+      - byte: 7
+        name: ACLD Version
+        type: uint8
+        scale: 0.1
