@@ -52,3 +52,14 @@ This version is a complete rewrite:
   ~~~
   # systemctl enable --now magpi@ttyUSB0
   ~~~
+
+### Inverter Remote / Network port pinout:
+Holding a 6 Pin RJ-11 connector with the tab facing away from you, cable dropping out of that connector toward you, here is the pin-out from left to right:
+* 1 = NC
+* 2 = (A+ 0-5V)
+* 3 = (GND)
+* 4 = NC
+* 5 = (B- 7-12V)
+* 6 = (14V w/respect to 3 as GND)
+
+NOTE: Magnum cautions that Pin 6 voltage should NOT be used to power any accessories.
