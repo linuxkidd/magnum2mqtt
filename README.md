@@ -26,7 +26,28 @@ This version is a complete rewrite:
   ~~~
   # systemctl daemon-reload
   ~~~
-* Modify options in `/etc/default/magpi` for MQTT broker and rentention
+* Modify options in `/etc/default/magpi` for MQTT broker and rentention based on command line options:
+  ~~~
+  # ./magpi.v3.py  --help
+  usage: magpi.v3.py [-h] [-b BROKER] [-d {0,1,2}] [-i INTERVAL] [-p PORT] [-r]
+                     [-s SPECFILE] [-t TOPIC]
+  
+  optional arguments:
+    -h, --help            show this help message and exit
+    -b BROKER, --broker BROKER
+                          MQTT Broker to publish to
+    -d {0,1,2}, --debug {0,1,2}
+                          debug data
+    -i INTERVAL, --interval INTERVAL
+                          MQTT update interval ( default 1 second )
+    -p PORT, --port PORT  commuications port descriptor, e.g /dev/ttyUSB0 or
+                          COM1
+    -r, --retain          MQTT Retain?
+    -s SPECFILE, --specfile SPECFILE
+                          Magnum Protocol Spec File
+    -t TOPIC, --topic TOPIC
+                          MQTT topic prefix
+  ~~~
 * Enable & Start the service, specifying the proper RS-485 serial device ( e.g. `ttyUSB0` )
   ~~~
   # systemctl enable --now magpi@ttyUSB0
